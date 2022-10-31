@@ -1,0 +1,145 @@
+/* || General styles */
+html {
+  background-color: #548093;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+/* || Form */
+form {
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  margin: 2em auto;
+  width: 700px;
+}
+
+/* || Header */
+h1 {
+  background-color: #eff0f1;
+  border-bottom: 1px solid #ccc;
+  border-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  color: #666;
+  font-size: 1.5em;
+  font-weight: 500;
+  line-height: 3;
+  text-align: center;
+}
+
+/* || Data input */
+*:focus {
+  outline-color: #666;
+}
+
+.inputs-container {
+  display: grid;
+  gap: 1em 0.8em;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 1em 2em;
+}
+
+.two-columns {
+  grid-column: 1 / span 2;
+}
+
+label {
+  color: #00bb93;
+  display: block;
+  font-size: 1.2em;
+  margin-bottom: 0.3em;
+}
+
+input,
+select,
+textarea {
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  padding: 0.3em 0.5em;
+  width: 100%;
+}
+
+input::placeholder {
+  color: #ccc;
+}
+input[type='file'] {
+  border: 0;
+  color: #666;
+  padding: 0;
+}
+input::file-selector-button {
+  background-color: #fdfdfd;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  max-height: 300px;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.checkbox-radio-wrapper p {
+  color: #00bb93;
+  font-size: 1.2em;
+  margin-bottom: 0.3em;
+}
+.checkbox-radio-wrapper label {
+  color: #666;
+  display: inline-block;
+  font-size: 1em;
+}
+.checkbox-radio-wrapper input {
+  vertical-align: text-top;
+  width: initial;
+}
+
+.income-wrapper input {
+  padding: 0;
+  vertical-align: middle;
+  width: 79%;
+}
+.income-wrapper > span {
+  background-color: #00bb93;
+  border-radius: 5px;
+  color: #fdfdfd;
+  font-size: 1.2em;
+  padding: 0.3em;
+}
+
+/* || Submit */
+form > section:last-child {
+  background-color: #eff0f1;
+  border-top: 1px solid #ccc;
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding: 0.7em 2em;
+  text-align: right;
+}
+
+button {
+  background-color: #00bb93;
+  border-radius: 5px;
+  border: 0;
+  color: #fdfdfd;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 0.6em 1em;
+}
+button:hover {
+  background-color: #069475;
+}
+button:active {
+  background-color: #00bb93;
+  box-shadow: 0.13em 0.13em 0.31em #ccc;
+}
+
+/*# sourceMappingURL=style.css.map */
