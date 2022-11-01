@@ -1,0 +1,83 @@
+/* || General styles */
+body {
+  align-items: center;
+  background: #1e1e1e;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  height: 50vh;
+  width: 50vw;
+}
+
+/* || Pacman */
+.pacman {
+  position: relative;
+  transform: translateX(-17.5px);
+  z-index: 1;
+}
+.pacman::before,
+.pacman::after {
+  border-radius: 50%;
+  content: '';
+  position: absolute;
+  top: -35px;
+}
+.pacman::before {
+  animation: 0.5s ease infinite alternate chunk-top;
+  border: 35px solid #ffcc00;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+}
+.pacman::after {
+  animation: 0.5s ease infinite alternate chunk-bottom;
+  border: 35px solid #ffcc00;
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+
+@keyframes chunk-top {
+  0% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(-80deg);
+  }
+}
+@keyframes chunk-bottom {
+  0% {
+    transform: rotate(-40deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+/* || Circle */
+.circle {
+  animation: 0.5s linear infinite eating-circle;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.circle::before {
+  background: #fff;
+  border-radius: 50%;
+  content: '';
+  height: 1em;
+  width: 1em;
+}
+
+@keyframes eating-circle {
+  0% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
