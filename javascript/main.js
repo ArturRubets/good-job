@@ -12,7 +12,8 @@ const debounce =
     timeout = setTimeout(() => callback(e), delay);
   };
 const apiKey = '77026bf24e9d8b82fd8d44d6069e70cf';
-const domain = 'https://api.openweathermap.org';
+const weatherDomain = 'https://api.openweathermap.org';
+const iconsDomain = 'http://openweathermap.org';
 
 class Weather {
   constructor(
@@ -33,7 +34,7 @@ class Weather {
     this.temperatureMax = temperatureMax;
     this.weatherMainText = weatherMainText;
     this.weatherDescription = weatherDescription;
-    this.weatherIconURL = `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
+    this.weatherIconURL = `${iconsDomain}/img/wn/${weatherIcon}@2x.png`;
     this.date = new Date(dateString);
     this.locationCountry = locationCountry;
     this.locationCity = locationCity;
@@ -50,7 +51,7 @@ class WeatherCalendar {
 searchInputWeather.focus();
 
 async function getGeocoding(query, limit, apiKey) {
-  const url = `${domain}/geo/1.0/direct?q=
+  const url = `${weatherDomain}/geo/1.0/direct?q=
   ${geocodingQueryProcessing(query)}&limit=${limit}&appid=${apiKey}`;
   console.log(url);
   const response = await fetch(url);
@@ -73,7 +74,7 @@ async function getWeather(lat, lon, apiKey) {
   if (!lat || !lon) {
     return;
   }
-  const url = `${domain}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+  const url = `${weatherDomain}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   console.log(url);
   const response = await fetch(url);
   if (response.ok) {
