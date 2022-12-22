@@ -34,10 +34,6 @@ body {
   width: 100%;
 }
 
-h1 {
-  text-align: center;
-}
-
 /* Search container */
 .search-container {
   margin-bottom: 2rem;
@@ -67,7 +63,7 @@ h1 {
   margin-top: 0.5rem;
 }
 .search-container .selected-text {
-  color: #1a202c;
+  color: rgba(26, 32, 44, 0.8);
   font-weight: bold;
 }
 
@@ -81,7 +77,7 @@ h1 {
 }
 
 .weather-current {
-  background-color: #1a202c;
+  background-color: rgba(26, 32, 44, 0.8);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -120,7 +116,7 @@ h1 {
 }
 
 .weather-forecast {
-  background-color: #2d3748;
+  background-color: rgba(45, 55, 72, 0.8);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
