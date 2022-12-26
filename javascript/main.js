@@ -257,7 +257,7 @@ const displayFailedWeatherSearch = (error) => {
 };
 
 // Getting the weather according to the user's location.
-const initialWeatherSearch = (weatherClient) => {
+const initialWeatherSearch = (weatherClient) =>
   navigator.geolocation.getCurrentPosition(async (position) => {
     const { latitude, longitude } = position.coords;
     const jsonWeather = await weatherClient.getWeather(
@@ -276,17 +276,14 @@ const initialWeatherSearch = (weatherClient) => {
 
     setBackground(jsonWeather.city.name + ' ' + jsonWeather.city.country);
   });
-};
 
-const getRandomImageByContext = (contextText) => {
-  return `https://source.unsplash.com/1600x900/?${contextText}`;
-};
+const getRandomImageByContext = (contextText) =>
+  `https://source.unsplash.com/1600x900/?${contextText}`;
 
-const setBackground = (searchImage) => {
-  document.body.style.backgroundImage = `url("${getRandomImageByContext(
-    searchImage
-  )}")`;
-};
+const setBackground = (searchImage) =>
+  (document.querySelector(
+    '.background-image'
+  ).style.backgroundImage = `url("${getRandomImageByContext(searchImage)}")`);
 
 /* Program implementation */
 
