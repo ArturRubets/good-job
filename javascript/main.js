@@ -300,8 +300,8 @@ searchInputWeather.addEventListener(
 
 searchInputWeather.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
-    handleWeatherInput(e, weatherClient);
     searchInputWeather.blur();
+    handleWeatherInput(e, weatherClient);
   }
 });
 
