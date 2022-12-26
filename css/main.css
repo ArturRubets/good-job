@@ -68,11 +68,12 @@ body {
   width: 2.5rem;
 }
 .search-container .selected-input {
+  color: white;
   display: none;
   margin-top: 0.5rem;
+  mix-blend-mode: difference;
 }
 .search-container .selected-text {
-  color: rgba(26, 32, 44, 0.8);
   font-weight: bold;
 }
 
