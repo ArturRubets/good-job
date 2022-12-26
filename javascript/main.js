@@ -11,7 +11,7 @@ const weatherWidget = document.querySelector('.weather-widget');
 const apiKey = '77026bf24e9d8b82fd8d44d6069e70cf';
 const weatherDomain = 'https://api.openweathermap.org';
 const iconsDomain = 'https://openweathermap.org';
-const delayDebounce = 2000;
+const delayDebounce = 1250;
 const weatherGeocodingLimit = 1;
 
 /* Define classes */
