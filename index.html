@@ -4,32 +4,33 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather widget</title>
-    <link rel="stylesheet" href="css/main.css" />
+    <title>Create a Todo list</title>
+    <link rel="stylesheet" href="main.css" />
     <script src="javascript/main.js" defer></script>
   </head>
   <body>
-    <div class="background-image"></div>
     <div class="container">
-      <div class="search-container">
-        <div class="search-bar">
-          <input
-            class="search-input-weather"
+      <div class="todo-list">
+        <input
+          class="header"
+          type="text"
+          placeholder="Name me..."
+          maxlength="25"
+        />
+        <div class="add-todo">
+          <textarea
+            rows="1"
+            class="add-todo-input"
             type="text"
-            placeholder="Search weather..."
-          />
-          <img
-            class="search-remove-text"
-            src="images/close.png"
-            alt="Remove search text"
-          />
+            placeholder="e.g. eggs"
+          ></textarea>
+          <button class="add-todo-button">Add</button>
         </div>
-        <div class="selected-input">
-          Selected:
-          <span class="selected-text"></span>
+        <div class="todo-container"></div>
+        <div class="clear-items-container">
+          <button class="clear-items-button">Clear Items</button>
         </div>
       </div>
-      <div class="weather-widget"></div>
     </div>
   </body>
 </html>

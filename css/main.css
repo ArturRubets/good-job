@@ -1,152 +1,160 @@
 /* Variables */
+
+:root {
+  --dangerous-color: #e66c6c;
+  --font-family: helvetica, arial, sans-serif;
+  --input-border-radius: 5px;
+  --blue-color: #a5d5f8;
+  --input-placeholder-color: #617d98;
+  --light-blue-color: #f1f5f8;
+  --text-color: #063251;
+}
+
 /* General styles */
+
 * {
   box-sizing: border-box;
 }
 
 html {
-  font-family: helvetica, arial, sans-serif;
+  font-family: var(--font-family);
   font-size: 10px;
 }
 
 body {
-  background-color: rgb(26, 32, 44);
-  font-size: 1.4rem;
+  background-color: var(--light-blue-color);
   margin: 0;
-  min-width: 320px;
-  position: relative;
 }
-@media screen and (max-width: 425px) {
-  body {
-    font-size: 1.3rem;
-  }
+
+h1 {
+  margin: 0;
 }
+
+input,
+textarea,
+button {
+  border: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input,
+textarea {
+  outline: none;
+  padding: 0.5rem 1.2rem;
+  width: 100%;
+}
+
+textarea {
+  max-height: 100px;
+  min-height: 25px;
+  resize: vertical;
+}
+
+/* Todo list */
 
 .container {
   margin: 0 auto;
-  max-width: 350px;
-  padding: 2rem 1.5rem;
-  width: 100%;
+  max-width: 400px;
+  padding-top: 10rem;
 }
 
-.background-image {
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
-  position: absolute;
-  width: 100%;
-  z-index: -1;
+.todo-list {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgb(0 0 0 / 20%);
+  color: var(--text-color);
+  font-size: 1.3rem;
+  letter-spacing: 0.18em;
+  padding: 4rem 3rem 3rem;
 }
 
-/* Search container */
-.search-container {
-  margin-bottom: 2rem;
+.header {
+  background-color: transparent;
+  font-size: 1.5em;
+  font-weight: 700;
+  letter-spacing: inherit;
+  padding-bottom: 3rem;
+  text-align: center;
+  text-transform: capitalize;
 }
-.search-container .search-bar {
-  align-items: center;
-  background-color: #fff;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+
+.header::placeholder {
+  text-transform: initial;
+}
+
+.add-todo {
   display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-}
-.search-container .search-input-weather {
-  border: none;
-  font-family: helvetica, arial, sans-serif;
-  font-size: inherit;
-  outline: none;
-  width: 100%;
-}
-.search-container .search-remove-text {
-  opacity: 0.3;
-  width: 2.5rem;
-}
-.search-container .selected-input {
-  color: white;
-  display: none;
-  margin-top: 0.5rem;
-  mix-blend-mode: difference;
-}
-.search-container .selected-text {
-  font-weight: bold;
+  margin-bottom: 2.5rem;
 }
 
-/* Weather widget */
-.weather-widget {
-  color: #fff;
+.add-todo-input {
+  background-color: var(--light-blue-color);
+  border-bottom-left-radius: var(--input-border-radius);
+  border-top-left-radius: var(--input-border-radius);
 }
 
-.weather-container {
-  padding: 0 2rem;
+.input-add-todo::placeholder {
+  color: var(--input-placeholder-color);
 }
 
-.weather-current {
-  background-color: rgba(26, 32, 44, 0.8);
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+.add-todo-button {
+  background-color: var(--blue-color);
+  border-bottom-right-radius: var(--input-border-radius);
+  border-top-right-radius: var(--input-border-radius);
+  letter-spacing: inherit;
+  width: 20%;
 }
-.weather-current .weather-container {
+
+.add-todo-button:hover {
+  filter: brightness(0.9);
+}
+
+.add-todo-button:active {
+  filter: brightness(0.8);
+}
+
+.icons {
   display: flex;
-  gap: 1.5rem;
-  justify-content: space-between;
-  padding-bottom: 1.1rem;
-  padding-top: 2.2rem;
-}
-.weather-current .weather-container > * {
-  flex-basis: 0;
-  flex-grow: 1;
-}
-.weather-current .today-temperature {
-  font-size: 4rem;
-  font-weight: bold;
-}
-.weather-current .feels-like-temperature {
-  white-space: nowrap;
-}
-.weather-current .weather-info {
-  display: flex;
-  flex-direction: column;
-  padding-top: 2rem;
-}
-.weather-current .weather-text {
-  font-weight: bold;
-  padding-bottom: 0.5rem;
-}
-.weather-current .weather-image {
-  max-width: 100%;
 }
 
-.weather-forecast {
-  background-color: rgba(45, 55, 72, 0.8);
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+.icon {
+  height: 1.5rem;
+  width: 1.5rem;
 }
-.weather-forecast .weather-container {
-  padding-bottom: 2rem;
-  padding-top: 3.5rem;
+
+.icon:not(:last-child) {
+  margin-right: 0.5rem;
 }
-.weather-forecast .section {
-  align-items: center;
+
+.todo {
   display: flex;
+  gap: 1rem;
   justify-content: space-between;
 }
-.weather-forecast .section > * {
-  flex-basis: 0;
-  flex-grow: 1;
-}
-.weather-forecast .section:not(:last-child) {
-  padding-bottom: 2rem;
-}
-.weather-forecast .day-of-week {
-  text-transform: uppercase;
-}
-.weather-forecast .weather-image {
-  max-width: 80%;
-}
-.weather-forecast .temperature {
-  line-height: 1.3;
-  text-align: end;
+
+.todo:not(:last-child) {
+  padding-bottom: 1.5rem;
 }
 
-/*# sourceMappingURL=main.css.map */
+.textarea-todo {
+  border-bottom: 0.1px solid rgba(128, 128, 128, 0.2);
+}
+
+.clear-items-container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.clear-items-button {
+  background-color: transparent;
+  color: var(--dangerous-color);
+}
+
+.clear-items-button:hover {
+  filter: brightness(0.8);
+}
+
+.clear-items-button:active {
+  filter: brightness(0.6);
+}

@@ -1,89 +1,79 @@
 /* Grab references to the DOM elements */
 
-const searchInputWeather = document.querySelector('.search-input-weather');
-const selectedText = document.querySelector('.selected-text');
-const selectedInput = document.querySelector('.selected-input');
-const searchRemoveText = document.querySelector('.search-remove-text');
-const weatherWidget = document.querySelector('.weather-widget');
+const addTodoButton = document.querySelector('.add-todo-button');
+const addTodoInput = document.querySelector('.add-todo-input');
+const clearItemsButton = document.querySelector('.clear-items-button');
+const clearItemsContainer = document.querySelector('.clear-items-container');
+const header = document.querySelector('.header');
+const todoContainer = document.querySelector('.todo-container');
 
 /* Define constants */
 
-const apiKey = '77026bf24e9d8b82fd8d44d6069e70cf';
-const weatherDomain = 'https://api.openweathermap.org';
-const iconsDomain = 'https://openweathermap.org';
-const delayDebounce = 1250;
-const weatherGeocodingLimit = 1;
+const delayDebounce = 1000;
+const nameTodoListKey = 'nameTodoListKey';
 
 /* Define classes */
 
-class Weather {
-  constructor(
-    temperature,
-    feelsLike,
-    temperatureMin,
-    temperatureMax,
-    weatherMainText,
-    weatherDescription,
-    weatherIcon,
-    dateString,
-    locationCountry,
-    locationCity
-  ) {
-    this.temperature = temperature;
-    this.feelsLike = feelsLike;
-    this.temperatureMin = temperatureMin;
-    this.temperatureMax = temperatureMax;
-    this.weatherMainText = weatherMainText;
-    this.weatherDescription = weatherDescription;
-    this.weatherIconURL = `${iconsDomain}/img/wn/${weatherIcon}@2x.png`;
-    this.date = new Date(dateString);
-    this.locationCountry = locationCountry;
-    this.locationCity = locationCity;
+class LocalStorage {
+  static getItem(key) {
+    return localStorage.getItem(key);
+  }
+
+  static setItem(key, item) {
+    localStorage.setItem(key, item);
+  }
+
+  static removeItem(key) {
+    localStorage.removeItem(key);
   }
 }
 
-class WeatherCalendar {
-  constructor(currentWeather, forecastWeatherArray) {
-    this.currentWeather = currentWeather;
-    this.forecastWeatherArray = forecastWeatherArray;
+class TodoStorage {
+  static todoItemKey = 'todoItemKey';
+
+  static get() {
+    const items = JSON.parse(LocalStorage.getItem(this.todoItemKey));
+    if (!items) {
+      return [];
+    }
+    return items.sort((a, b) => a.id - b.id);
+  }
+
+  static set(todo) {
+    LocalStorage.setItem(
+      this.todoItemKey,
+      JSON.stringify([...this.get(), todo])
+    );
+  }
+
+  static replaceContent(todo, description) {
+    const all = this.get();
+    const founded = all.find((t) => t.id === todo.id);
+    founded.description = description;
+    this.replaceAll(all);
+  }
+
+  static replaceAll(todos) {
+    LocalStorage.setItem(this.todoItemKey, JSON.stringify(todos));
+  }
+
+  static remove(todoId) {
+    const all = this.get();
+    const filtered = all.filter((todo) => todo.id != todoId);
+    if (filtered.length != all.length) {
+      this.replaceAll(filtered);
+    }
+  }
+
+  static clear() {
+    LocalStorage.removeItem(this.todoItemKey);
   }
 }
 
-class WeatherAPI {
-  // Query is city.
-  async getGeocoding(query, limit, apiKey) {
-    const url = `${weatherDomain}/geo/1.0/direct?q=
-  ${this.geocodingQueryProcessing(query)}&limit=${limit}&appid=${apiKey}`;
-    const response = await fetch(url);
-    if (response.ok) {
-      return await response.json();
-    } else {
-      console.log(
-        `Network geocoding request for ${query} failed with response ${response.status}: ${response.statusText}`
-      );
-    }
-  }
-
-  geocodingQueryProcessing(query) {
-    return query
-      .split(/[\s,]+/)
-      .join(',')
-      .trim();
-  }
-
-  async getWeather(lat, lon, apiKey) {
-    if (!lat || !lon) {
-      return;
-    }
-    const url = `${weatherDomain}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
-    const response = await fetch(url);
-    if (response.ok) {
-      return await response.json();
-    } else {
-      console.log(
-        `Network weather request for lat: ${lat} and lon: ${lon} failed with response ${response.status}: ${response.statusText}`
-      );
-    }
+class Todo {
+  constructor(description) {
+    this.description = description;
+    this.id = new Date().getTime();
   }
 }
 
@@ -96,213 +86,131 @@ const debounce =
     timeout = setTimeout(() => callback(e), delay);
   };
 
-const removeSearch = () => {
-  searchInputWeather.value = '';
-  selectedText.textContent = '';
-  selectedInput.style.display = 'none';
-  searchInputWeather.focus();
+const inputNameTodoList = () => {
+  const nameTodoList = header.value.trim();
+  if (nameTodoList) {
+    LocalStorage.setItem(nameTodoListKey, nameTodoList);
+  }
 };
 
-const handleWeatherInput = async (e, weatherClient) => {
-  const rawQuery = e.target.value;
-  if (rawQuery.trim() === '') {
-    removeSearch();
-    return;
+const handleButtonAddTodo = () => {
+  addTodoInput.focus();
+  if (addTodoInput.value.trim()) {
+    const todo = new Todo(addTodoInput.value);
+
+    displayTodo(todo);
+
+    TodoStorage.set(todo);
+
+    addTodoInput.value = '';
+    addTodoInput.style.height = 'auto';
+
+    checkDisplayClearItemsButton();
   }
+};
 
-  selectedText.textContent = rawQuery;
-  selectedInput.style.display = 'block';
+const displayTodo = (todo) => todoContainer.append(createTodoElement(todo));
 
-  try {
-    const geocoding = await weatherClient.getGeocoding(
-      rawQuery,
-      weatherGeocodingLimit,
-      apiKey
-    );
+const createTodoElement = (todo) => {
+  const divTodo = document.createElement('div');
+  divTodo.classList.add('todo');
 
-    const firstCity = geocoding[0];
-    if (!firstCity) {
-      return;
+  const textarea = (() => {
+    const textarea = document.createElement('textarea');
+    textarea.classList.add('textarea-todo');
+    textarea.value = todo.description;
+    textarea.setAttribute('readonly', true);
+    textarea.setAttribute('rows', 1);
+    return textarea;
+  })();
+
+  const createIcon = (url) => {
+    const icon = document.createElement('i');
+    icon.classList.add('icon');
+    icon.style.background = `no-repeat center/contain url(${url})`;
+    return icon;
+  };
+  const editIcon = createIcon('images/edit_icon.svg');
+  const saveIcon = createIcon('images/save_icon.svg');
+  const removeIcon = createIcon('images/remove_icon.svg');
+
+  const icons = (() => {
+    const divIcons = document.createElement('div');
+    divIcons.classList.add('icons');
+    divIcons.append(editIcon);
+    divIcons.append(removeIcon);
+    return divIcons;
+  })();
+
+  saveIcon.addEventListener('click', () => {
+    textarea.setAttribute('readonly', true);
+    saveIcon.replaceWith(editIcon);
+    if (textarea.value) {
+      TodoStorage.replaceContent(todo, textarea.value);
+    } else {
+      divTodo.remove();
+      checkDisplayClearItemsButton();
+      TodoStorage.remove(todo.id);
     }
-
-    const jsonWeather = await weatherClient.getWeather(
-      firstCity.lat,
-      firstCity.lon,
-      apiKey
-    );
-    const weatherCalendar = handleJsonWeather(jsonWeather);
-
-    displayWeather(
-      weatherCalendar.currentWeather,
-      weatherCalendar.forecastWeatherArray
-    );
-
-    setBackground(jsonWeather.city.name + ' ' + jsonWeather.city.country);
-  } catch (error) {
-    displayFailedWeatherSearch(error);
-  }
-};
-
-const handleJsonWeather = (jsonWeather) => {
-  if (!jsonWeather) {
-    return;
-  }
-
-  const currentDate = new Date().toDateString();
-
-  // forecast.list contains the weather forecast for every three hours.
-  // tempArray contains only one forecast for each day at 12:00,
-  // but for the current day, the forecast will be the first in the list.
-  const tempArray = jsonWeather.list
-    .filter(
-      (f) =>
-        jsonWeather.list[0].dt_txt === f.dt_txt ||
-        (f.dt_txt.includes('12:00') &&
-          new Date(f.dt_txt).toDateString() !== currentDate)
-    )
-    .map(
-      (f) =>
-        new Weather(
-          f.main.temp,
-          f.main.feels_like,
-          f.main.temp_min,
-          f.main.temp_max,
-          f.weather[0].main,
-          f.weather[0].description,
-          f.weather[0].icon,
-          f.dt_txt,
-          jsonWeather.city.country,
-          jsonWeather.city.name
-        )
-    );
-  return new WeatherCalendar(tempArray[0], tempArray.slice(1));
-};
-
-const displayWeather = (currentWeather, forecastWeatherArray) => {
-  try {
-    const currentWeatherHTML = (() => {
-      const temperature = Math.round(currentWeather.temperature);
-      const feelsLike = Math.round(currentWeather.feelsLike);
-      const location =
-        currentWeather.locationCity + ', ' + currentWeather.locationCountry;
-      return `
-      <div class="weather-current">
-        <div class="weather-container">
-          <div>
-            <span class="today-temperature">
-            ${temperature}°C
-            </span>
-            <span class="feels-like-temperature">
-            Feels like ${feelsLike}°C
-            </span>
-          </div>
-          <div class="weather-info">
-            <div class="weather-text">${currentWeather.weatherMainText}</div>
-            <div class="location">${location}</div>
-          </div>
-          <div>
-            <img class="weather-image" src="${currentWeather.weatherIconURL}" alt="Weather image" />
-          </div>
-        </div>
-      </div>
-    `;
-    })();
-
-    const forecastWeatherHTML = (() => {
-      const forecastSections = forecastWeatherArray
-        .map((f) => {
-          const day = new Date(f.date).toLocaleDateString('en-gb', {
-            weekday: 'short',
-          });
-          const temperatureMin = Math.round(f.temperatureMin);
-          const temperatureMax = Math.round(f.temperatureMax);
-          return `
-              <div class="section">
-                <span class="day-of-week">${day}</span>
-                <div>
-                  <img
-                    class="weather-image"
-                    src="${f.weatherIconURL}"
-                    alt="Weather image"
-                  />
-                </div>
-                <span>${f.weatherDescription}</span>
-                <div>
-                  <div class="temperature max-temperature">${temperatureMin}°C</div>
-                  <div class="temperature min-temperature">${temperatureMax}°C</div>
-                </div>
-              </div>
-            `;
-        })
-        .join('');
-      return `
-      <div class="weather-forecast">
-        <div class="weather-container">
-          ${forecastSections}
-        </div>
-      </div>
-    `;
-    })();
-
-    weatherWidget.style.display = 'block';
-    weatherWidget.innerHTML = currentWeatherHTML + forecastWeatherHTML;
-  } catch (error) {
-    displayFailedWeatherSearch(error);
-  }
-};
-
-const displayFailedWeatherSearch = (error) => {
-  weatherWidget.style.display = 'none';
-  console.log(error);
-};
-
-// Getting the weather according to the user's location.
-const initialWeatherSearch = (weatherClient) =>
-  navigator.geolocation.getCurrentPosition(async (position) => {
-    const { latitude, longitude } = position.coords;
-    const jsonWeather = await weatherClient.getWeather(
-      latitude,
-      longitude,
-      apiKey
-    );
-    const weatherCalendar = handleJsonWeather(jsonWeather);
-    if (!weatherCalendar) {
-      return;
-    }
-    displayWeather(
-      weatherCalendar.currentWeather,
-      weatherCalendar.forecastWeatherArray
-    );
-
-    setBackground(jsonWeather.city.name + ' ' + jsonWeather.city.country);
   });
 
-const getRandomImageByContext = (contextText) =>
-  `https://source.unsplash.com/1600x900/?${contextText}`;
+  editIcon.addEventListener('click', () => {
+    textarea.removeAttribute('readonly');
+    textarea.focus();
+    editIcon.replaceWith(saveIcon);
+  });
 
-const setBackground = (searchImage) =>
-  (document.querySelector(
-    '.background-image'
-  ).style.backgroundImage = `url("${getRandomImageByContext(searchImage)}")`);
+  removeIcon.addEventListener('click', () => {
+    if (confirmRemove()) {
+      divTodo.remove();
+      checkDisplayClearItemsButton();
+      TodoStorage.remove(todo.id);
+    }
+  });
+
+  divTodo.append(textarea);
+  divTodo.append(icons);
+  return divTodo;
+};
+
+const listenTypingTodo = () => {
+  if (addTodoInput.value) {
+    addTodoButton.textContent = 'Save';
+  } else {
+    addTodoButton.textContent = 'Add';
+  }
+};
+
+const confirmRemove = () => confirm('Remove?');
+
+const removeAllTodo = () => {
+  if (confirmRemove()) {
+    todoContainer.innerHTML = '';
+    checkDisplayClearItemsButton();
+    TodoStorage.clear();
+  }
+};
+
+const checkDisplayClearItemsButton = () => {
+  if (todoContainer.innerHTML === '') {
+    clearItemsContainer.style.display = 'none';
+  } else {
+    clearItemsContainer.style.display = 'block';
+  }
+};
 
 /* Program implementation */
 
-searchInputWeather.focus();
+header.addEventListener('input', debounce(inputNameTodoList, delayDebounce));
 
-searchRemoveText.addEventListener('click', removeSearch);
+addTodoButton.addEventListener('click', handleButtonAddTodo);
 
-const weatherClient = new WeatherAPI();
+addTodoInput.addEventListener('input', listenTypingTodo);
 
-searchInputWeather.addEventListener(
-  'input',
-  debounce((e) => handleWeatherInput(e, weatherClient), delayDebounce)
-);
+clearItemsButton.addEventListener('click', removeAllTodo);
 
-searchInputWeather.addEventListener('keyup', (e) => {
-  if (e.key === 'Enter') {
-    searchInputWeather.blur();
-    handleWeatherInput(e, weatherClient);
-  }
-});
+TodoStorage.get().forEach(displayTodo);
 
-initialWeatherSearch(weatherClient);
+header.value = LocalStorage.getItem(nameTodoListKey);
+
+checkDisplayClearItemsButton();
