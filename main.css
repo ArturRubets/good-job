@@ -45,6 +45,7 @@ h2 {
 button,
 input {
   border: 0;
+  color: inherit;
   font-family: inherit;
   font-size: inherit;
   padding: 0;
@@ -148,8 +149,8 @@ input.search-bar {
 .icon-search {
   background: no-repeat center/contain url('images/icons/search.svg');
   display: inline-block;
-  height: 2.3rem;
-  width: 2.3rem;
+  height: 2rem;
+  width: 2rem;
   cursor: pointer;
 }
 
