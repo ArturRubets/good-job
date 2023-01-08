@@ -165,8 +165,7 @@ class Loader {
 
 /* Define functions */
 
-const numberWithCommas = (x) =>
-  x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+const numberWithCommas = (n) => n.toLocaleString('en-US');
 
 const debounce =
   (callback, delay, timeout = 0) =>
