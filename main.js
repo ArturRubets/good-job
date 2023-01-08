@@ -211,22 +211,24 @@ const displayCards = (countries) => {
         />
         <div class="card-container">
           <h2 class="country-name">${countryObj.countryName}</h2>
-          <p class="population">
-            <b>Population:</b>
-            <span class="population-value">${countryObj.population}</span>
-          </p>
-          <p class="region">
-            <b>Region:</b>
-            <span class="region-value">${countryObj.region}</span>
-          </p>
-          ${
-            countryObj.capital
-              ? `<p class="capital">
-                  <b>Capital:</b>
-                  <span class="capital-value">${countryObj.capital}</span>
-                </p>`
-              : ''
-          }
+          <div class="indicators">
+            <p class="population">
+              <b>Population:</b>
+              <span class="population-value">${countryObj.population}</span>
+            </p>
+            <p class="region">
+              <b>Region:</b>
+              <span class="region-value">${countryObj.region}</span>
+            </p>
+            ${
+              countryObj.capital
+                ? `<p class="capital">
+                    <b>Capital:</b>
+                    <span class="capital-value">${countryObj.capital}</span>
+                  </p>`
+                : ''
+            }
+          </div>
         </div>
       </div>
     `;
