@@ -175,7 +175,15 @@ const debounce =
   };
 
 // When the user clicks on the button, toggle between hiding and showing the dropdown content.
-const toggleRegionDropdown = () => dropdownContent.classList.toggle('show');
+const toggleRegionDropdown = (e) => {
+  if (
+    e.target?.classList.contains('dropdown-content') ||
+    e.target.parentNode?.classList.contains('dropdown-content')
+  ) {
+    return;
+  }
+  return dropdownContent.classList.toggle('show');
+};
 
 // Close the dropdown menu if the user clicks outside of it.
 const closeDropdownMenuOutside = (targetEl) => {
