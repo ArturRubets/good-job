@@ -198,7 +198,6 @@ input.search-bar {
   text-decoration: none;
 }
 
-.dropdown-content a:hover,
 .dropdown-content .active {
   background-color: #ddd;
 }
