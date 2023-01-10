@@ -4,41 +4,91 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List page of countries</title>
-    <link rel="stylesheet" href="main.css" />
-    <script src="main.js" defer></script>
+    <title>TORNADO - інтернет-магазин</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="javascript/main.js" defer></script>
   </head>
   <body>
     <header>
       <div class="container header-container">
-        <h1>Where in the world?</h1>
-        <div class="dark-mode-container">
-          <i class="mode-icon"></i>
-          <span>Dark Mode</span>
+        <div class="logo">
+          <img
+            src="images/logo.webp"
+            alt="TORNADO - інтернет-магазин"
+            width="200"
+            height="38"
+          />
+        </div>
+        <div class="search">
+          <form action="" method="get">
+            <input type="text" placeholder="пошук товарів" autocomplete="off" />
+            <button type="submit" disabled>
+              <svg
+                viewBox="0 0 16.9 16.9"
+                id="icon-search"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.7 15.3l-4.4-4.4c-.2-.2-.5-.2-.7 0l-.7.7c-.2.2-.2.5 0 .7l4.4 4.4c.2.2.8.4 1.1 0l.3-.3c.4-.3.2-.9 0-1.1z"
+                ></path>
+                <path
+                  d="M13 6.5C13 2.9 10.1 0 6.5 0S0 2.9 0 6.5 2.9 13 6.5 13 13 10.1 13 6.5zM6.5 11C4 11 2 9 2 6.5S4 2 6.5 2 11 4 11 6.5 9 11 6.5 11z"
+                ></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+        <div class="phone">
+          <svg
+            viewBox="0 0 64 64"
+            id="icon-phone"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M32 0C14.328 0 0 14.328 0 32s14.328 32 32 32 32-14.328 32-32S49.672 0 32 0zm15.555 44.121c-.719.684-1.344 1.441-2.063 1.965-1.742 1.246-3.914 1.914-6.438 1.945-2.48.031-4.488-.727-6.32-1.602-3.578-1.711-6.453-4.219-9.188-7.023-2.688-2.766-5.199-6.07-6.672-9.773-1.836-4.625-1.184-9.492 1.328-12.617.422-.531 1.105-1.098 1.727-1.672.625-.586 1.188-1.273 2.086-1.484 2.043-.48 3.492 1.781 4.59 3.344 1.066 1.508 2.375 3.281 1.965 5.328-.223 1.141-1.223 1.805-1.969 2.512-.738.691-1.879 1.355-2.117 2.379-.391 1.672.695 3.359 1.367 4.316 1.516 2.164 3.324 4.098 5.598 5.793 1.098.824 2.625 1.922 4.09 1.559 2.188-.543 2.656-3.293 5.043-3.762 2.273-.445 3.895 1.148 5.234 2.203 1.293 1.023 3.363 2.313 3.305 4.16-.035 1.062-.855 1.757-1.566 2.429z"
+            ></path>
+          </svg>
+          <a href="tel:+380672300023">067 2300023</a>
+        </div>
+        <div class="timetable">
+          <svg
+            viewBox="0 0 64 64"
+            id="icon-clock"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M32 0C14.328 0 0 14.328 0 32s14.328 32 32 32 32-14.328 32-32S49.672 0 32 0zm13.82 42.367l-3.328 3.328a2 2 0 01-2.828 0l-9.827-9.712A1.992 1.992 0 0128 34V14c0-1.109.895-2 2-2h4c1.105 0 2 .891 2 2v15.834l9.82 9.705a1.998 1.998 0 010 2.828z"
+            ></path>
+          </svg>
+          <div class="timetable-title">Графік роботи:</div>
+          <div class="timetable-text">
+            <p><strong>Будні:</strong>&nbsp;09:00-18:00</p>
+            <p><strong>Сб-Нд:</strong>&nbsp;10:00-17:00</p>
+          </div>
+        </div>
+        <div class="basket">
+          <a class="basket-link" href="#">
+            <div class="basket-icon">
+              <svg
+                viewBox="0 0 34 34"
+                id="icon-basket-outline"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M32.2 13H26c0-.1 0-.2-.1-.3l-6-10.4c-.3-.5-.9-.6-1.4-.4-.5.3-.6.9-.4 1.4l5.6 9.7H10.3l5.6-9.7c.3-.5.1-1.1-.4-1.4-.5-.3-1.1-.1-1.4.4l-6 10.4c-.1.1-.1.2-.1.3H1.8c-1 0-1.8.5-1.8 1.5 0 .9.7 1.5 1.8 1.5l2 13c.2 1 1 2 2 2H28c1 0 1.8-1 2-2l2-13c1 0 1.8-.6 1.8-1.5.2-.9-.6-1.5-1.6-1.5zm-4 15.3c-.1.4-.4.7-.8.7H6.5c-.3 0-.7-.3-.8-.7L3.7 15h26.6l-2.1 13.3z"
+                ></path>
+              </svg>
+              <div class="basket-items">0</div>
+            </div>
+            <div class="basket-contents">
+              <div class="basket-title">Мій кошик</div>
+              <div class="basket-value">0 грн</div>
+            </div>
+          </a>
         </div>
       </div>
     </header>
-    <main>
-      <div class="container">
-        <div class="search-container">
-          <div class="search-bar-container">
-            <button class="btn-icon-search"><i class="icon-search"></i></button>
-            <input
-              class="search-bar"
-              type="text"
-              placeholder="Search for a country..."
-            />
-          </div>
-          <div class="dropdown">
-            <button class="dropbtn">
-              Filter by Region
-              <i class="arrow-down"></i>
-            </button>
-            <div class="dropdown-content"></div>
-          </div>
-        </div>
-        <div class="cards"></div>
-      </div>
-    </main>
   </body>
 </html>
